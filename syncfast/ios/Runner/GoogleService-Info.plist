@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>510632149212-htddubeodukrdgeb8ht2ug06p6gbve75.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.510632149212-htddubeodukrdgeb8ht2ug06p6gbve75</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>510632149212-249oljqekliqpvnt68hk11jd5g9hnc8i.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB52qkcG6d_kWp4c80aCB36txecX1B-i_k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>510632149212</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>sai.syncfast</string>
+	<key>PROJECT_ID</key>
+	<string>syncfast-macrotech</string>
+	<key>STORAGE_BUCKET</key>
+	<string>syncfast-macrotech.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:510632149212:ios:98d362b74f9478094db419</string>
+	<key>DATABASE_URL</key>
+	<string>https://syncfast-macrotech.firebaseio.com</string>
+</dict>
+</plist>
