@@ -626,25 +626,6 @@ class _ViewPresPageState extends State<ViewPresPage> {
         });
   }
 
-  Future<String> helpContext(BuildContext context, String title, Widget body) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              title: Text(title),
-              content: body,
-              actions: <Widget>[
-                MaterialButton(
-                  elevation: 5.0,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("OK"),
-                )
-              ]);
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -716,86 +697,88 @@ class _ViewPresPageState extends State<ViewPresPage> {
             title: Text('${clientJson["presentationtitle"]}'),
           ),
           body: Center(
-            // Center is a layout widget. It takes a single child and positions it
-            // in the middle of the parent.
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Opacity(
-                  opacity: clientLock ? 0.0 : 1.0,
-                  child: RaisedButton(
-                      onPressed: () async {
-                        if (!clientLock) {
-                          if (currentSlideNum != "0") {
-                            Map<String, String> headers = {
-                              "Content-type": "application/json",
-                              "Origin": "*",
-                              "accesscode": accessCode,
-                              "slidenum":
-                                  (int.parse(currentSlideNum) - 1).toString()
-                            };
-                            Response response = await post(
-                                'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
-                                headers: headers);
-                            currentSlideNum =
-                                (int.parse(currentSlideNum) - 1).toString();
-                            setState(() {
-                              tempJson = jsonDecode(response.body);
-                            });
-                            setState(() {
-                              slideUrl = tempJson["slideurl"];
-                            });
-                          } else {
-                            createAlertDialog(context, "Previous Slide",
-                                "You are currently on the first slide.");
+                Container(
+                  child: Opacity(
+                    opacity: clientLock ? 0.0 : 1.0,
+                    child: RaisedButton(
+                        onPressed: () async {
+                          if (!clientLock) {
+                            if (currentSlideNum != "0") {
+                              Map<String, String> headers = {
+                                "Content-type": "application/json",
+                                "Origin": "*",
+                                "accesscode": accessCode,
+                                "slidenum":
+                                    (int.parse(currentSlideNum) - 1).toString()
+                              };
+                              Response response = await post(
+                                  'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
+                                  headers: headers);
+                              currentSlideNum =
+                                  (int.parse(currentSlideNum) - 1).toString();
+                              setState(() {
+                                tempJson = jsonDecode(response.body);
+                              });
+                              setState(() {
+                                slideUrl = tempJson["slideurl"];
+                              });
+                            } else {
+                              createAlertDialog(context, "Previous Slide",
+                                  "You are currently on the first slide.");
+                            }
                           }
-                        }
-                      },
-                      child: Image(
-                        image: AssetImage('assets/previousSlide.png'),
-                        width: 75,
-                      )),
+                        },
+                        child: Image(
+                          image: AssetImage('assets/previousSlide.png'),
+                          width: 75,
+                        )),
+                  ),
                 ),
                 Expanded(
                     child: Container(
                         child: Image(
                   image: NetworkImage(slideUrl),
                 ))),
-                Opacity(
-                  opacity: clientLock ? 0.0 : 1.0,
-                  child: RaisedButton(
-                      onPressed: () async {
-                        if (!clientLock) {
-                          if (int.parse(currentSlideNum) <
-                              int.parse(maxSlideNum)) {
-                            Map<String, String> headers = {
-                              "Content-type": "application/json",
-                              "Origin": "*",
-                              "accesscode": accessCode,
-                              "slidenum":
-                                  (int.parse(currentSlideNum) + 1).toString()
-                            };
-                            Response response = await post(
-                                'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
-                                headers: headers);
-                            currentSlideNum =
-                                (int.parse(currentSlideNum) + 1).toString();
-                            setState(() {
-                              tempJson = jsonDecode(response.body);
-                            });
-                            setState(() {
-                              slideUrl = tempJson["slideurl"];
-                            });
-                          } else {
-                            createAlertDialog(context, "Next Slide",
-                                "You are currently on the last available slide.");
+                Container(
+                  child: Opacity(
+                    opacity: clientLock ? 0.0 : 1.0,
+                    child: RaisedButton(
+                        onPressed: () async {
+                          if (!clientLock) {
+                            if (int.parse(currentSlideNum) <
+                                int.parse(maxSlideNum)) {
+                              Map<String, String> headers = {
+                                "Content-type": "application/json",
+                                "Origin": "*",
+                                "accesscode": accessCode,
+                                "slidenum":
+                                    (int.parse(currentSlideNum) + 1).toString()
+                              };
+                              Response response = await post(
+                                  'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
+                                  headers: headers);
+                              currentSlideNum =
+                                  (int.parse(currentSlideNum) + 1).toString();
+                              setState(() {
+                                tempJson = jsonDecode(response.body);
+                              });
+                              setState(() {
+                                slideUrl = tempJson["slideurl"];
+                              });
+                            } else {
+                              createAlertDialog(context, "Next Slide",
+                                  "You are currently on the last available slide.");
+                            }
                           }
-                        }
-                      },
-                      child: Image(
-                        image: AssetImage('assets/nextSlide.png'),
-                        width: 75,
-                      )),
+                        },
+                        child: Image(
+                          image: AssetImage('assets/nextSlide.png'),
+                          width: 75,
+                        )),
+                  ),
                 ),
               ],
             ),
