@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
@@ -19,15 +19,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="-30" y="200" width="475.99999999999994" height="497"/>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Webp.net-resizeimage (3)-1.png" translatesAutoresizingMaskIntoConstraints="NO" id="rCQ-jE-86d">
+                                <rect key="frame" x="0.0" y="294" width="414" height="230"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="230" id="d54-ja-YQJ"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
+                            <constraint firstItem="rCQ-jE-86d" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="679-Rr-pjC"/>
+                            <constraint firstItem="rCQ-jE-86d" firstAttribute="top" secondItem="Ydg-fD-yQy" secondAttribute="bottom" constant="250" id="9JJ-mI-LWP"/>
+                            <constraint firstAttribute="trailing" secondItem="rCQ-jE-86d" secondAttribute="trailing" id="qBd-gA-hKX"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="463.5" height="461"/>
+        <image name="Webp.net-resizeimage (3)-1.png" width="927" height="922"/>
     </resources>
 </document>
