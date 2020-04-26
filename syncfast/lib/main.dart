@@ -467,13 +467,9 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
                             currentSlideNum = clientJson["slidenum"];
                             slideUrl = clientJson["slideurl"];
                             if (clientJson["lockstate"] == 'false') {
-                              setState(() {
-                                clientLock = false;
-                              });
+                              clientLock = false;
                             } else {
-                              setState(() {
-                                clientLock = true;
-                              });
+                              clientLock = true;
                             }
                             dispose() {
                               SystemChrome.setPreferredOrientations([
