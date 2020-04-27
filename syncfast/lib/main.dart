@@ -52,32 +52,32 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "/": (_) => StreamBuilder(
-              stream: getLinksStream(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var result = snapshot.data;
-                  if (snapshot.data.contains("syncfast") &&
-                      snapshot.data.contains("?accessKey=")) {
-                    accessCode = result.substring(result.indexOf('=') + 1);
-                    return ViewLinkPage();
-                  } else {
-                    return ClientJoinPage();
-                  }
-                } else {
-                  return MyHomePage(title: 'SyncFast');
-                }
-              },
-            ),
+          stream: getLinksStream(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var result = snapshot.data;
+              if (snapshot.data.contains("syncfast") &&
+                  snapshot.data.contains("?accessKey=")) {
+                accessCode = result.substring(result.indexOf('=') + 1);
+                return ViewLinkPage();
+              } else {
+                return ClientJoinPage();
+              }
+            } else {
+              return MyHomePage(title: 'SyncFast');
+            }
+          },
+        ),
         "/join": (_) => ViewLinkPage(),
         "/webview": (_) => WebviewScaffold(
-              url: url,
-              appBar: AppBar(
-                title: Text("Contact MacroTech"),
-              ),
-              withJavascript: true,
-              withLocalStorage: true,
-              withZoom: true,
-            )
+          url: url,
+          appBar: AppBar(
+            title: Text("Contact MacroTech"),
+          ),
+          withJavascript: true,
+          withLocalStorage: true,
+          withZoom: true,
+        )
       },
       //home: MyHomePage(title: 'SyncFast'),
     );
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           TextSpan(
                             text:
-                                'Use this feature to access a SyncFast presentation with a QR code or an access key.\n',
+                            'Use this feature to access a SyncFast presentation with a QR code or an access key.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                           TextSpan(
@@ -205,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           TextSpan(
                             text:
-                                'Use this feature to control an existing presentation hosted on SyncFast.\n',
+                            'Use this feature to control an existing presentation hosted on SyncFast.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -386,7 +386,7 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
                               ),
                               TextSpan(
                                 text:
-                                    'Enter the access key that you received from your host in the field and press submit.\n',
+                                'Enter the access key that you received from your host in the field and press submit.\n',
                                 style: TextStyle(fontSize: 20),
                               ),
                               TextSpan(
@@ -398,7 +398,7 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
                               ),
                               TextSpan(
                                 text:
-                                    'If you have a QR code instead, click the Scan QR code button to open a camera view and point the camera at your QR code.\n',
+                                'If you have a QR code instead, click the Scan QR code button to open a camera view and point the camera at your QR code.\n',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
@@ -569,7 +569,7 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
                     } on FormatException {
                       setState(() {
                         result =
-                            "You pressed the back button before scanning anything";
+                        "You pressed the back button before scanning anything";
                         createAlertDialog(
                             context, "Scan QR", "No QR Code was recognized.");
                       });
@@ -629,7 +629,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
       DeviceOrientation.landscapeRight,
     ]);
     var channel =
-        IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
+    IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
     channel.stream.listen((message) async {
       if (message == clientJson["firebasepresentationkey"]) {
         Map<String, String> headers = {
@@ -708,7 +708,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                                 "Origin": "*",
                                 "accesscode": accessCode,
                                 "slidenum":
-                                    (int.parse(currentSlideNum) - 1).toString()
+                                (int.parse(currentSlideNum) - 1).toString()
                               };
                               Response response = await post(
                                   'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
@@ -736,8 +736,8 @@ class _ViewPresPageState extends State<ViewPresPage> {
                 Expanded(
                     child: Container(
                         child: Image(
-                  image: NetworkImage(slideUrl),
-                ))),
+                          image: NetworkImage(slideUrl),
+                        ))),
                 Container(
                   child: Opacity(
                     opacity: clientLock ? 0.0 : 1.0,
@@ -751,7 +751,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                                 "Origin": "*",
                                 "accesscode": accessCode,
                                 "slidenum":
-                                    (int.parse(currentSlideNum) + 1).toString()
+                                (int.parse(currentSlideNum) + 1).toString()
                               };
                               Response response = await post(
                                   'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
@@ -862,7 +862,7 @@ class _HostSignInState extends State<HostSignIn> {
                           ),
                           TextSpan(
                             text:
-                                'Use the same credentials that you used to host your presentation on the SyncFast website to login to the app.\n',
+                            'Use the same credentials that you used to host your presentation on the SyncFast website to login to the app.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                           TextSpan(
@@ -874,7 +874,7 @@ class _HostSignInState extends State<HostSignIn> {
                           ),
                           TextSpan(
                             text:
-                                'If you are receiving a sign in error, please verify that you have a presentation running on the same account at https://syncfast.net.\n',
+                            'If you are receiving a sign in error, please verify that you have a presentation running on the same account at https://syncfast.net.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -945,7 +945,7 @@ class _HostSignInState extends State<HostSignIn> {
                           "Content-type": "application/json",
                           "Origin": "*",
                           "firebasepresentationkey":
-                              hostJson["firebasepresentationkey"]
+                          hostJson["firebasepresentationkey"]
                         };
                         Response response = await post(
                             'https://syncfast.macrotechsolutions.us:9146/http://localhost/remoteAuth',
@@ -983,7 +983,7 @@ class _HostSignInState extends State<HostSignIn> {
             RaisedButton(
               onPressed: () async {
                 final GoogleSignInAccount googleSignInAccount =
-                    await googleSignIn.signIn();
+                await googleSignIn.signIn();
                 Map<String, String> headers = {
                   "Content-type": "application/json",
                   "Origin": "*",
@@ -999,7 +999,7 @@ class _HostSignInState extends State<HostSignIn> {
                     "Content-type": "application/json",
                     "Origin": "*",
                     "firebasepresentationkey":
-                        hostJson["firebasepresentationkey"]
+                    hostJson["firebasepresentationkey"]
                   };
                   Response response = await post(
                       'https://syncfast.macrotechsolutions.us:9146/http://localhost/remoteAuth',
@@ -1110,7 +1110,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
       DeviceOrientation.portraitDown,
     ]);
     var channel =
-        IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
+    IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
     channel.stream.listen((message) async {
       if (message == hostJson["firebasepresentationkey"]) {
         Map<String, String> headers = {
@@ -1172,7 +1172,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
                           ),
                           TextSpan(
                             text:
-                                'This remote allows you to control the presentation running on a web browser without having to interact with that browser directly.\n',
+                            'This remote allows you to control the presentation running on a web browser without having to interact with that browser directly.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                           TextSpan(
@@ -1184,7 +1184,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
                           ),
                           TextSpan(
                             text:
-                                'If the functions are not working appropriately, please verify that both the remote and the host device are connected to the internet.\n',
+                            'If the functions are not working appropriately, please verify that both the remote and the host device are connected to the internet.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -1229,8 +1229,8 @@ class _HostRemotePageState extends State<HostRemotePage> {
             ),
             Expanded(
                 child: Container(
-              child: Image(image: NetworkImage(hostJson["slideurl"])),
-            )),
+                  child: Image(image: NetworkImage(hostJson["slideurl"])),
+                )),
             ButtonBar(alignment: MainAxisAlignment.center, children: <Widget>[
               Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -1241,7 +1241,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
                             "Content-type": "application/json",
                             "Origin": "*",
                             "firebasepresentationkey":
-                                hostJson["firebasepresentationkey"]
+                            hostJson["firebasepresentationkey"]
                           };
                           Response response = await post(
                               'https://syncfast.macrotechsolutions.us:9146/http://localhost/previousSlide',
@@ -1265,7 +1265,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
                             "Content-type": "application/json",
                             "Origin": "*",
                             "firebasepresentationkey":
-                                hostJson["firebasepresentationkey"]
+                            hostJson["firebasepresentationkey"]
                           };
                           Response response = await post(
                               'https://syncfast.macrotechsolutions.us:9146/http://localhost/nextSlide',
@@ -1394,7 +1394,7 @@ class _ViewLinkPageState extends State<ViewLinkPage> {
                           ),
                           TextSpan(
                             text:
-                                'This app is launched when you open a SyncFast webpage in your browser. Verify the access code and click the submit button.\n',
+                            'This app is launched when you open a SyncFast webpage in your browser. Verify the access code and click the submit button.\n',
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
