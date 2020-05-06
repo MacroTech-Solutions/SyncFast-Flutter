@@ -700,6 +700,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                   child: Opacity(
                     opacity: clientLock ? 0.0 : 1.0,
                     child: RaisedButton(
+                        color: HexColor("00afce"),
                         onPressed: () async {
                           if (!clientLock) {
                             if (currentSlideNum != "0") {
@@ -742,6 +743,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                   child: Opacity(
                     opacity: clientLock ? 0.0 : 1.0,
                     child: RaisedButton(
+                        color: HexColor("00afce"),
                         onPressed: () async {
                           if (!clientLock) {
                             if (int.parse(currentSlideNum) <
@@ -1021,7 +1023,7 @@ class _HostSignInState extends State<HostSignIn> {
                           builder: (context) => new HostRemotePage()));
                 } else {
                   createAlertDialog(context, "Error",
-                      "The email address $googleSignInAccount is not associated with an account. Please host a presentationon https://syncfast.macrotechsolutions.us.");
+                      "The email address ${googleSignInAccount.email} is not associated with an account. Please host a presentationon https://syncfast.macrotechsolutions.us.");
                 }
               },
               child: Padding(
@@ -1138,7 +1140,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
     googleSignIn.signOut();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Access Key - ${hostJson["accesskey"]}"),
+        title: Text("Key - ${hostJson["accesskey"]}"),
         actions: <Widget>[
           IconButton(
             icon: Icon(lockIcon),
@@ -1235,6 +1237,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
               Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: RaisedButton(
+                      color: HexColor("00afce"),
                       onPressed: () async {
                         if (hostJson["slidenum"] != "0") {
                           Map<String, String> headers = {
@@ -1258,6 +1261,7 @@ class _HostRemotePageState extends State<HostRemotePage> {
               Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: RaisedButton(
+                      color: HexColor("00afce"),
                       onPressed: () async {
                         if (hostJson["slidenum"] !=
                             (int.parse(hostJson["length"]) - 1).toString()) {
