@@ -357,10 +357,7 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
             DeviceOrientation.portraitUp,
             DeviceOrientation.portraitDown,
           ]);
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new MyHomePage(title: 'SyncFast')));
+          Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
           return;
         },
         child: Scaffold(
@@ -1233,12 +1230,17 @@ class _HostRemotePageState extends State<HostRemotePage> {
                       ))),
             ]),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
-              child: Text(
-                '${hostJson["notes"]}',
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
+              padding: const EdgeInsets.only(top: 30.0, bottom: 30.0, left: 15.0, right: 15.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 150),
+                child: SingleChildScrollView(child: Container(
+                  child: Text(
+                    '${hostJson["notes"]}',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),),
               ),
             ),
           ],
