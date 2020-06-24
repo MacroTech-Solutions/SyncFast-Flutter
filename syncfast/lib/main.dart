@@ -506,9 +506,9 @@ class _ClientJoinPageState extends State<ClientJoinPage> {
                           currentSlideNum = clientJson["slidenum"];
                           slideUrl = clientJson["slideurl"];
                           if (clientJson["lockstate"] == 'false') {
-                              clientLock = false;
+                            clientLock = false;
                           } else {
-                              clientLock = true;
+                            clientLock = true;
                           }
                           dispose() {
                             SystemChrome.setPreferredOrientations([
@@ -1157,13 +1157,20 @@ class _HostRemotePageState extends State<HostRemotePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 30.0),
-                child: Text(
-                  '${hostJson["presentationtitle"]}',
-                  style: TextStyle(
-                    fontSize: 25.0,
-                  ),
-                )),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 30.0, left: 30.0, right: 30.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 50),
+                child: Container(
+                    child: Text(
+                      '${hostJson["presentationtitle"]}',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                ),
+              ),
+            ),
             Text(
               'Slide #${int.parse(hostJson["slidenum"]) + 1}',
               style: TextStyle(
@@ -1226,17 +1233,20 @@ class _HostRemotePageState extends State<HostRemotePage> {
                       ))),
             ]),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, bottom: 30.0, left: 15.0, right: 15.0),
+              padding: const EdgeInsets.only(
+                  top: 30.0, bottom: 30.0, left: 15.0, right: 15.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 150),
-                child: SingleChildScrollView(child: Container(
-                  child: Text(
-                    '${hostJson["notes"]}',
-                    style: TextStyle(
-                      fontSize: 20.0,
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Text(
+                      '${hostJson["notes"]}',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
-                ),),
+                ),
               ),
             ),
           ],
@@ -1389,9 +1399,9 @@ class _ViewLinkPageState extends State<ViewLinkPage> {
                         currentSlideNum = clientJson["slidenum"];
                         slideUrl = clientJson["slideurl"];
                         if (clientJson["lockstate"] == 'false') {
-                            clientLock = false;
+                          clientLock = false;
                         } else {
-                            clientLock = true;
+                          clientLock = true;
                         }
                         dispose() {
                           SystemChrome.setPreferredOrientations([
