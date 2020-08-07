@@ -666,6 +666,14 @@ class _ViewPresPageState extends State<ViewPresPage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text('${clientJson["presentationtitle"]}'),
+            actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.content_copy),
+                onPressed: () async {
+                  Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
+                  createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
+                })
+          ],
           ),
           body: Center(
             child: Row(
