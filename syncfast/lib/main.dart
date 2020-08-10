@@ -598,6 +598,25 @@ class _ViewPresPageState extends State<ViewPresPage> {
         });
   }
 
+  Future<String> helpContext(BuildContext context, String title, Widget body) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(title),
+              content: body,
+              actions: <Widget>[
+                MaterialButton(
+                  elevation: 5.0,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                )
+              ]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -667,12 +686,49 @@ class _ViewPresPageState extends State<ViewPresPage> {
           appBar: AppBar(
             title: Text('${clientJson["presentationtitle"]}'),
             actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.help),
+                  onPressed: () async {
+                    helpContext(
+                        context,
+                        "Help",
+                        Text.rich(
+                          TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Slides\n',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                              ),
+                              TextSpan(
+                                text:
+                                'View the slides and navigate through the slides if enabled by host.\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              TextSpan(
+                                text: '\nCopy Link\n',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                              ),
+                              TextSpan(
+                                text:
+                                'If you would like to access the voice channel, copy the link and paste in a supported browser to listen in.\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ));
+                  }),
             IconButton(
                 icon: Icon(Icons.content_copy),
                 onPressed: () async {
                   Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
                   createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
-                })
+                }),
           ],
           ),
           body: Center(

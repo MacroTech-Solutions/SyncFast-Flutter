@@ -392,6 +392,25 @@ class _ViewPresPageState extends State<ViewPresPage> {
         });
   }
 
+  Future<String> helpContext(BuildContext context, String title, Widget body) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(title),
+              content: body,
+              actions: <Widget>[
+                MaterialButton(
+                  elevation: 5.0,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("OK"),
+                )
+              ]);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -399,7 +418,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
       DeviceOrientation.landscapeRight,
     ]);
     var channel =
-        IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
+    IOWebSocketChannel.connect("wss://syncfast.macrotechsolutions.us:4211");
     channel.stream.listen((message) async {
       if (message == clientJson["firebasepresentationkey"]) {
         Map<String, String> headers = {
@@ -451,12 +470,60 @@ class _ViewPresPageState extends State<ViewPresPage> {
             DeviceOrientation.portraitUp,
             DeviceOrientation.portraitDown,
           ]);
-          Navigator.pop(context);
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new ClientJoinPage()));
           return;
         },
         child: Scaffold(
           appBar: AppBar(
             title: Text('${clientJson["presentationtitle"]}'),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.help),
+                  onPressed: () async {
+                    helpContext(
+                        context,
+                        "Help",
+                        Text.rich(
+                          TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Slides\n',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                              ),
+                              TextSpan(
+                                text:
+                                'View the slides and navigate through the slides if enabled by host.\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              TextSpan(
+                                text: '\nCopy Link\n',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                              ),
+                              TextSpan(
+                                text:
+                                'If you would like to access the voice channel, copy the link and paste in a supported browser to listen in.\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ));
+                  }),
+              IconButton(
+                  icon: Icon(Icons.content_copy),
+                  onPressed: () async {
+                    Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
+                    createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
+                  }),
+            ],
           ),
           body: Center(
             child: Row(
@@ -475,7 +542,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                                 "Origin": "*",
                                 "accesscode": accessCode,
                                 "slidenum":
-                                    (int.parse(currentSlideNum) - 1).toString()
+                                (int.parse(currentSlideNum) - 1).toString()
                               };
                               Response response = await post(
                                   'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
@@ -503,8 +570,8 @@ class _ViewPresPageState extends State<ViewPresPage> {
                 Expanded(
                     child: Container(
                         child: Image(
-                  image: NetworkImage(slideUrl),
-                ))),
+                          image: NetworkImage(slideUrl),
+                        ))),
                 Container(
                   child: Opacity(
                     opacity: clientLock ? 0.0 : 1.0,
@@ -519,7 +586,7 @@ class _ViewPresPageState extends State<ViewPresPage> {
                                 "Origin": "*",
                                 "accesscode": accessCode,
                                 "slidenum":
-                                    (int.parse(currentSlideNum) + 1).toString()
+                                (int.parse(currentSlideNum) + 1).toString()
                               };
                               Response response = await post(
                                   'https://syncfast.macrotechsolutions.us:9146/http://localhost/clientGetSlide',
