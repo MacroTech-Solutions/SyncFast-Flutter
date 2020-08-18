@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -8,6 +9,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 void main() {
   runApp(MyApp());
@@ -1044,7 +1046,7 @@ class _HostSignInState extends State<HostSignIn> {
                           builder: (context) => new HostRemotePage()));
                 } else {
                   createAlertDialog(context, "Error",
-                      "The email address ${googleSignInAccount.email} is not associated with an account. Please host a presentationon https://syncfast.macrotechsolutions.us.");
+                      "The email address ${googleSignInAccount.email} is not associated with an account. Please host a presentation at https://syncfast.macrotechsolutions.us.");
                 }
               },
               child: Padding(
@@ -1070,6 +1072,80 @@ class _HostSignInState extends State<HostSignIn> {
                 ),
               ),
             ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+        child: SignInWithAppleButton(
+              onPressed: () async {
+                final credential = await SignInWithApple.getAppleIDCredential(
+                  scopes: [
+                    AppleIDAuthorizationScopes.email,
+                    AppleIDAuthorizationScopes.fullName,
+                  ],
+                  webAuthenticationOptions: WebAuthenticationOptions(
+                    clientId:
+                    'us.macrotechsolutions.syncfastlogin',
+                    redirectUri: Uri.parse(
+                      'https://syncfast.macrotechsolutions.us/callbacks/sign_in_with_apple',
+                    ),
+                  ),
+                  // TODO: Remove these if you have no need for them
+                  nonce: 'example-nonce',
+                  state: 'example-state',
+                );
+
+
+                // This is the endpoint that will convert an authorization code obtained
+                // via Sign in with Apple into a session in your system
+                final signInWithAppleEndpoint = Uri(
+                  scheme: 'https',
+                  host: 'syncfast.macrotechsolutions.us',
+                  path: '/sign_in_with_apple',
+                  queryParameters: <String, String>{
+                    'code': credential.authorizationCode,
+                    'firstName': credential.givenName,
+                    'lastName': credential.familyName,
+                    'useBundleId': Platform.isIOS ? 'true' : 'false',
+                    if (credential.state != null) 'state': credential.state,
+                  },
+                );
+
+                final response = await Client().post(
+                  signInWithAppleEndpoint,
+                );
+
+                hostJson = jsonDecode(response.body);
+                print(hostJson);
+                if (hostJson["data"] == "Valid User") {
+                  Map<String, String> headers = {
+                    "Content-type": "application/json",
+                    "Origin": "*",
+                    "firebasepresentationkey":
+                    hostJson["firebasepresentationkey"]
+                  };
+                  Response response = await post(
+                      'https://syncfast.macrotechsolutions.us:9146/http://localhost/remoteAuth',
+                      headers: headers);
+                  hostJson = jsonDecode(response.body);
+                  dispose() {
+                    SystemChrome.setPreferredOrientations([
+                      DeviceOrientation.landscapeRight,
+                      DeviceOrientation.landscapeLeft,
+                      DeviceOrientation.portraitUp,
+                      DeviceOrientation.portraitDown,
+                    ]);
+                    super.dispose();
+                  }
+
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new HostRemotePage()));
+                } else {
+                  createAlertDialog(context, "Error",
+                      "This Apple ID is not associated with an account. Please host a presentation at https://syncfast.macrotechsolutions.us.");
+                }
+              },
+            ),),
           ],
         ),
       ),
