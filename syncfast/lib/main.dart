@@ -96,7 +96,8 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-  final ChromeSafariBrowser browser = new MyChromeSafariBrowser(new MyInAppBrowser());
+  final ChromeSafariBrowser browser =
+      new MyChromeSafariBrowser(new MyInAppBrowser());
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -290,13 +291,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: HexColor("c6c6c8"),
                     onPressed: () async {
                       await widget.browser.open(
-                          url: "https://www.macrotechsolutions.us/contact-us.html",
+                          url:
+                              "https://www.macrotechsolutions.us/contact-us.html",
                           options: ChromeSafariBrowserClassOptions(
-                              android: AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: true, keepAliveEnabled: true),
+                              android: AndroidChromeCustomTabsOptions(
+                                  addDefaultShareMenuItem: true,
+                                  keepAliveEnabled: true),
                               ios: IOSSafariOptions(
-                                  dismissButtonStyle: IOSSafariDismissButtonStyle.CLOSE,
-                                  presentationStyle: IOSUIModalPresentationStyle.OVER_FULL_SCREEN
-                              )));
+                                  dismissButtonStyle:
+                                      IOSSafariDismissButtonStyle.CLOSE,
+                                  presentationStyle: IOSUIModalPresentationStyle
+                                      .OVER_FULL_SCREEN)));
 //                      Navigator.of(context).pushNamed("/webview");
                     },
                     child: Text("Contact MacroTech"))),
@@ -584,7 +589,8 @@ class ViewPresPage extends StatefulWidget {
   ViewPresPage({Key key, this.title}) : super(key: key);
 
   final String title;
-  final ChromeSafariBrowser browser = new MyChromeSafariBrowser(new MyInAppBrowser());
+  final ChromeSafariBrowser browser =
+      new MyChromeSafariBrowser(new MyInAppBrowser());
 
   @override
   _ViewPresPageState createState() => _ViewPresPageState();
@@ -717,11 +723,11 @@ class _ViewPresPageState extends State<ViewPresPage> {
                               ),
                               TextSpan(
                                 text:
-                                'View the slides and navigate through the slides if enabled by host.\n',
+                                    'View the slides and navigate through the slides if enabled by host.\n',
                                 style: TextStyle(fontSize: 20),
                               ),
                               TextSpan(
-                                text: '\nCopy Link\n',
+                                text: '\nView in Browser\n',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -729,28 +735,30 @@ class _ViewPresPageState extends State<ViewPresPage> {
                               ),
                               TextSpan(
                                 text:
-                                'If you would like to access the voice channel, copy the link and paste in a supported browser to listen in.\n',
+                                    'If you would like to access the voice channel, view the presentation in a supported browser to listen in.\n',
                                 style: TextStyle(fontSize: 20),
                               ),
                             ],
                           ),
                         ));
                   }),
-            IconButton(
-                icon: Icon(Icons.content_copy),
-                onPressed: () async {
-                  await widget.browser.open(
-                      url: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode",
-                      options: ChromeSafariBrowserClassOptions(
-                          android: AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: true, keepAliveEnabled: true),
-                          ios: IOSSafariOptions(
-                              dismissButtonStyle: IOSSafariDismissButtonStyle.CLOSE,
-                              presentationStyle: IOSUIModalPresentationStyle.OVER_FULL_SCREEN
-                          )));
-//                  Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
-//                  createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
-                }),
-          ],
+              IconButton(
+                  icon: Icon(Icons.open_in_browser),
+                  onPressed: () async {
+                    await widget.browser.open(
+                        url:
+                            "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode",
+                        options: ChromeSafariBrowserClassOptions(
+                            android: AndroidChromeCustomTabsOptions(
+                                addDefaultShareMenuItem: true,
+                                keepAliveEnabled: true),
+                            ios: IOSSafariOptions(
+                                dismissButtonStyle:
+                                    IOSSafariDismissButtonStyle.CLOSE,
+                                presentationStyle: IOSUIModalPresentationStyle
+                                    .OVER_FULL_SCREEN)));
+                  }),
+            ],
           ),
           body: Center(
             child: Row(
@@ -1091,80 +1099,79 @@ class _HostSignInState extends State<HostSignIn> {
                 ),
               ),
             ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-        child: SignInWithAppleButton(
-              onPressed: () async {
-                final credential = await SignInWithApple.getAppleIDCredential(
-                  scopes: [
-                    AppleIDAuthorizationScopes.email,
-                    AppleIDAuthorizationScopes.fullName,
-                  ],
-                  webAuthenticationOptions: WebAuthenticationOptions(
-                    clientId:
-                    'us.macrotechsolutions.syncfastlogin',
-                    redirectUri: Uri.parse(
-                      'https://syncfast.macrotechsolutions.us/callbacks/sign_in_with_apple',
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+              child: SignInWithAppleButton(
+                onPressed: () async {
+                  final credential = await SignInWithApple.getAppleIDCredential(
+                    scopes: [
+                      AppleIDAuthorizationScopes.email,
+                      AppleIDAuthorizationScopes.fullName,
+                    ],
+                    webAuthenticationOptions: WebAuthenticationOptions(
+                      clientId: 'us.macrotechsolutions.syncfastlogin',
+                      redirectUri: Uri.parse(
+                        'https://syncfast.macrotechsolutions.us/callbacks/sign_in_with_apple',
+                      ),
                     ),
-                  ),
-                  // TODO: Remove these if you have no need for them
-                  nonce: 'example-nonce',
-                  state: 'example-state',
-                );
+                    // TODO: Remove these if you have no need for them
+                    nonce: 'example-nonce',
+                    state: 'example-state',
+                  );
 
+                  // This is the endpoint that will convert an authorization code obtained
+                  // via Sign in with Apple into a session in your system
+                  final signInWithAppleEndpoint = Uri(
+                    scheme: 'https',
+                    host: 'syncfast.macrotechsolutions.us',
+                    path: '/sign_in_with_apple',
+                    queryParameters: <String, String>{
+                      'code': credential.authorizationCode,
+                      'firstName': credential.givenName,
+                      'lastName': credential.familyName,
+                      'useBundleId': Platform.isIOS ? 'true' : 'false',
+                      if (credential.state != null) 'state': credential.state,
+                    },
+                  );
 
-                // This is the endpoint that will convert an authorization code obtained
-                // via Sign in with Apple into a session in your system
-                final signInWithAppleEndpoint = Uri(
-                  scheme: 'https',
-                  host: 'syncfast.macrotechsolutions.us',
-                  path: '/sign_in_with_apple',
-                  queryParameters: <String, String>{
-                    'code': credential.authorizationCode,
-                    'firstName': credential.givenName,
-                    'lastName': credential.familyName,
-                    'useBundleId': Platform.isIOS ? 'true' : 'false',
-                    if (credential.state != null) 'state': credential.state,
-                  },
-                );
+                  final response = await Client().post(
+                    signInWithAppleEndpoint,
+                  );
 
-                final response = await Client().post(
-                  signInWithAppleEndpoint,
-                );
-
-                hostJson = jsonDecode(response.body);
-                print(hostJson);
-                if (hostJson["data"] == "Valid User") {
-                  Map<String, String> headers = {
-                    "Content-type": "application/json",
-                    "Origin": "*",
-                    "firebasepresentationkey":
-                    hostJson["firebasepresentationkey"]
-                  };
-                  Response response = await post(
-                      'https://syncfast.macrotechsolutions.us:9146/http://localhost/remoteAuth',
-                      headers: headers);
                   hostJson = jsonDecode(response.body);
-                  dispose() {
-                    SystemChrome.setPreferredOrientations([
-                      DeviceOrientation.landscapeRight,
-                      DeviceOrientation.landscapeLeft,
-                      DeviceOrientation.portraitUp,
-                      DeviceOrientation.portraitDown,
-                    ]);
-                    super.dispose();
-                  }
+                  print(hostJson);
+                  if (hostJson["data"] == "Valid User") {
+                    Map<String, String> headers = {
+                      "Content-type": "application/json",
+                      "Origin": "*",
+                      "firebasepresentationkey":
+                          hostJson["firebasepresentationkey"]
+                    };
+                    Response response = await post(
+                        'https://syncfast.macrotechsolutions.us:9146/http://localhost/remoteAuth',
+                        headers: headers);
+                    hostJson = jsonDecode(response.body);
+                    dispose() {
+                      SystemChrome.setPreferredOrientations([
+                        DeviceOrientation.landscapeRight,
+                        DeviceOrientation.landscapeLeft,
+                        DeviceOrientation.portraitUp,
+                        DeviceOrientation.portraitDown,
+                      ]);
+                      super.dispose();
+                    }
 
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new HostRemotePage()));
-                } else {
-                  createAlertDialog(context, "Error",
-                      "This Apple ID is not associated with an account. Please host a presentation at https://syncfast.macrotechsolutions.us.");
-                }
-              },
-            ),),
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new HostRemotePage()));
+                  } else {
+                    createAlertDialog(context, "Error",
+                        "This Apple ID is not associated with an account. Please host a presentation at https://syncfast.macrotechsolutions.us.");
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -1316,17 +1323,18 @@ class _HostRemotePageState extends State<HostRemotePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 30.0, left: 30.0, right: 30.0),
+              padding: const EdgeInsets.only(
+                  top: 20.0, bottom: 30.0, left: 30.0, right: 30.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 50),
                 child: Container(
-                    child: Text(
-                      '${hostJson["presentationtitle"]}',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 25.0,
-                      ),
+                  child: Text(
+                    '${hostJson["presentationtitle"]}',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 25.0,
                     ),
+                  ),
                 ),
               ),
             ),
@@ -1590,7 +1598,6 @@ class _ViewLinkPageState extends State<ViewLinkPage> {
 }
 
 class MyInAppBrowser extends InAppBrowser {
-
   @override
   Future onLoadStart(String url) async {
     print("\n\nStarted $url\n\n");
@@ -1610,11 +1617,9 @@ class MyInAppBrowser extends InAppBrowser {
   void onExit() {
     print("\n\nBrowser closed!\n\n");
   }
-
 }
 
 class MyChromeSafariBrowser extends ChromeSafariBrowser {
-
   MyChromeSafariBrowser(browserFallback) : super(bFallback: browserFallback);
 
   @override
