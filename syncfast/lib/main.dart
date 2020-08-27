@@ -10,6 +10,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 void main() {
   runApp(MyApp());
@@ -95,6 +96,7 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+  final ChromeSafariBrowser browser = new MyChromeSafariBrowser(new MyInAppBrowser());
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -287,7 +289,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: RaisedButton(
                     color: HexColor("c6c6c8"),
                     onPressed: () async {
-                      Navigator.of(context).pushNamed("/webview");
+                      await widget.browser.open(
+                          url: "https://www.macrotechsolutions.us/contact-us.html",
+                          options: ChromeSafariBrowserClassOptions(
+                              android: AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: true, keepAliveEnabled: true),
+                              ios: IOSSafariOptions(
+                                  dismissButtonStyle: IOSSafariDismissButtonStyle.CLOSE,
+                                  presentationStyle: IOSUIModalPresentationStyle.OVER_FULL_SCREEN
+                              )));
+//                      Navigator.of(context).pushNamed("/webview");
                     },
                     child: Text("Contact MacroTech"))),
           ],
@@ -574,6 +584,7 @@ class ViewPresPage extends StatefulWidget {
   ViewPresPage({Key key, this.title}) : super(key: key);
 
   final String title;
+  final ChromeSafariBrowser browser = new MyChromeSafariBrowser(new MyInAppBrowser());
 
   @override
   _ViewPresPageState createState() => _ViewPresPageState();
@@ -728,8 +739,16 @@ class _ViewPresPageState extends State<ViewPresPage> {
             IconButton(
                 icon: Icon(Icons.content_copy),
                 onPressed: () async {
-                  Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
-                  createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
+                  await widget.browser.open(
+                      url: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode",
+                      options: ChromeSafariBrowserClassOptions(
+                          android: AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: true, keepAliveEnabled: true),
+                          ios: IOSSafariOptions(
+                              dismissButtonStyle: IOSSafariDismissButtonStyle.CLOSE,
+                              presentationStyle: IOSUIModalPresentationStyle.OVER_FULL_SCREEN
+                          )));
+//                  Clipboard.setData(ClipboardData(text: "https://syncfast.macrotechsolutions.us/client?accessKey=$accessCode"));
+//                  createAlertDialog(context, "Link Copied", "Paste the link in your browser to view it on your browser and listen in to the voice chat.");
                 }),
           ],
           ),
@@ -1567,5 +1586,49 @@ class _ViewLinkPageState extends State<ViewLinkPage> {
         ),
       ),
     );
+  }
+}
+
+class MyInAppBrowser extends InAppBrowser {
+
+  @override
+  Future onLoadStart(String url) async {
+    print("\n\nStarted $url\n\n");
+  }
+
+  @override
+  Future onLoadStop(String url) async {
+    print("\n\nStopped $url\n\n");
+  }
+
+  @override
+  void onLoadError(String url, int code, String message) {
+    print("\n\nCan't load $url.. Error: $message\n\n");
+  }
+
+  @override
+  void onExit() {
+    print("\n\nBrowser closed!\n\n");
+  }
+
+}
+
+class MyChromeSafariBrowser extends ChromeSafariBrowser {
+
+  MyChromeSafariBrowser(browserFallback) : super(bFallback: browserFallback);
+
+  @override
+  void onOpened() {
+    print("ChromeSafari browser opened");
+  }
+
+  @override
+  void onLoaded() {
+    print("ChromeSafari browser loaded");
+  }
+
+  @override
+  void onClosed() {
+    print("ChromeSafari browser closed");
   }
 }
