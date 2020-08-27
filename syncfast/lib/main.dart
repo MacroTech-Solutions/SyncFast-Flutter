@@ -7,7 +7,6 @@ import 'package:http/http.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -71,17 +70,7 @@ class MyApp extends StatelessWidget {
               },
             ),
         "/join": (_) => ViewLinkPage(),
-        "/webview": (_) => WebviewScaffold(
-              url: url,
-              appBar: AppBar(
-                title: Text("Contact MacroTech"),
-              ),
-              withJavascript: true,
-              withLocalStorage: true,
-              withZoom: true,
-            )
       },
-      //home: MyHomePage(title: 'SyncFast'),
     );
   }
 }
@@ -107,10 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   initState() {
     super.initState();
-    webView.close();
-    controller.addListener(() {
-      url = controller.text;
-    });
     if (initial) {
       initPlatformState();
       initial = !initial;
@@ -159,13 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  final webView = FlutterWebviewPlugin();
-  TextEditingController controller = TextEditingController(text: url);
-
   @override
   void dispose() {
-    webView.dispose();
-    controller.dispose();
     super.dispose();
   }
 
@@ -1473,23 +1453,13 @@ class _ViewLinkPageState extends State<ViewLinkPage> {
         });
   }
 
-  final webView = FlutterWebviewPlugin();
-  TextEditingController controller = TextEditingController(text: url);
-
   @override
   void initState() {
     super.initState();
-
-    webView.close();
-    controller.addListener(() {
-      url = controller.text;
-    });
   }
 
   @override
   void dispose() {
-    webView.dispose();
-    controller.dispose();
     super.dispose();
   }
 
