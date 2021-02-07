@@ -15,7 +15,7 @@ jobs:
     - name: Set up Flutter and Dart
       uses: subosito/flutter-action@v1
       with:
-        flutter-version: '1.22.4'
+        channel: 'beta'
     - name: Download required packages
       run: |
         cd syncfast
