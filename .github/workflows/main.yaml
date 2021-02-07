@@ -1,0 +1,38 @@
+name: Compile Flutter app
+
+# Controls when the action will run. 
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JAVA for Android
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Set up Flutter and Dart
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '1.22.4'
+    - name: Download required packages
+      run: |
+        cd syncfast
+        flutter pub get
+    - name: Build Android app
+      run: |
+        cd syncfast
+        flutter build appbundle
+    - name: Build iOS App
+      run: |
+        cd syncfast
+        flutter build ios --release --no-codesign
+    - name: Download required packages for instant app
+      run: |
+        cd Instant\ App/syncfast
+        flutter pub get
+    - name: Build Android instant app
+      run: |
+        cd Instant\ App/syncfast
+        flutter build appbundle
